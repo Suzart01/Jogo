@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 2px;
+  }
+  .cell {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 36px;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div id="status">Esperando por outro jogador...</div>
+<div class="board" id="board"></div>
+
+<script>
+const board = document.getElementById("board");
+const status = document.getElementById("status");
+let currentPlayer = "X";
+let cells = Array.from({ length: 9 }, (_, index) => index);
+
+function updateStatus(message) {
+  status.textContent = message;
+}
+
+function renderBoard() {
+  board.innerHTML = "";
+  cells.forEach((cellIndex) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.textContent = cells[cellIndex];
+    cell.addEventListener("click", () => handleCellClick(cellIndex));
+    board.appendChild(cell);
+  });
+}
+
+function handleCellClick(cellIndex) {
+  if (cells[cellIndex] === "X" || cells[cellIndex] === "O") {
+    return;
+  }
+
+  cells[cellIndex] = currentPlayer;
+  renderBoard();
+  checkWinner();
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+}
+
+function checkWinner() {
+  // Implement your winning logic here
+}
+
+renderBoard();
+</script>
+</body>
+</html>
